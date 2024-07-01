@@ -46,7 +46,9 @@ ADD ${AGENT_URL} runzero-explorer.bin
 
 RUN chmod +x runzero-explorer.bin
 
-RUN apt update && apt install -y chromium-browser
+RUN apt update && apt install -y curl
+
+RUN curl -o chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && apt install -y ./chrome.deb
 
 USER root
 
@@ -55,7 +57,7 @@ ENTRYPOINT [ "/opt/rumble/runzero-explorer.bin", "manual"]
 - Explanation:
   - For non-persistent containers an Explorer Identifier needs to be persisted through an environment variable
   - The argument `manual` tells runZero not to look for SystemD or upstart
-  - The line `RUN apt update && apt install -y chromium-browser` installs Chromium so that the Explorer can capture screenshots; it can be removed if you do not want your Explorer to capture screenshots.
+  - The lines `RUN apt update && apt install -y curl` and `RUN curl -o chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && apt install -y ./chrome.deb` install Chrome so that the Explorer can capture screenshots; it can be removed if you do not want your Explorer to capture screenshots.
 
 ## Step 3: Create a Container Manager Project for the runZero Network Explorer
 
